@@ -6,10 +6,11 @@ import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.filechooser.FileNameExtensionFilter;
+
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
+import javafx.stage.FileChooser;
 
 
 /*
@@ -76,24 +77,22 @@ public class ImagePanel extends JPanel implements MouseListener,MouseMotionListe
 	 * If the file they choose already exists it asks if they want to replace the existing one
 	 */
 	public void save(){
-		JFileChooser chooser = new JFileChooser();
-		chooser.setFileFilter(new FileNameExtensionFilter("PNG","PNG"));
-		int ret = chooser.showSaveDialog(chooser.getParent());
-		if (ret == JFileChooser.APPROVE_OPTION){
-			String file = chooser.getSelectedFile().getPath()+".png";
-			if (new File(file).exists()){
-				Object[] options = {"Yes","No"};
-				String[] parts = file.split("\\\\");
-				int option = JOptionPane.showOptionDialog(null, "The file " + parts[parts.length-1] + " already exists. Do you want to replace the existing file?", 
-						"Confirm save", 
-						JOptionPane.YES_NO_OPTION, 
-						JOptionPane.WARNING_MESSAGE, 
-						null, options, options[1]);						
-				if (option == JOptionPane.YES_OPTION)
-					mand.save(file);
-			}
-			else
-				mand.save(file);
+		new JFXPanel();
+		Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+            	
+                fxSave();
+            }
+        });
+	}
+	
+	private void fxSave(){
+		FileChooser chooser = new FileChooser();
+		chooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PNG","*.png"));
+		File ret = chooser.showSaveDialog(null);
+		if (ret != null){
+			mand.save(ret.getPath());
 		}
 	}
 	
