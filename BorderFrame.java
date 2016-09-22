@@ -15,7 +15,7 @@ import javafx.embed.swing.JFXPanel;
 
 /*
  * JFrame containing the current rendered image
- * Also creates a separate JFrame control/info panel
+ * Also creates a control/info panel
  */
 public class BorderFrame extends JFrame{
 	private ImagePanel image;
@@ -55,7 +55,7 @@ public class BorderFrame extends JFrame{
 	}
 	
 	/*
-	 * changes the size of the frame and repositions the control/image panel
+	 * changes the size of the frame
 	 */
 	public void setBigness(int width, int height){
 		setSize(width+getInsets().left+getInsets().right,height+getInsets().top+getInsets().bottom);
