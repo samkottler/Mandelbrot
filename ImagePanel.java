@@ -10,6 +10,10 @@ import javax.swing.JPanel;
 
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Button;
+import javafx.scene.control.Dialog;
 import javafx.stage.FileChooser;
 
 
@@ -194,12 +198,43 @@ public class ImagePanel extends JPanel implements MouseListener,MouseMotionListe
 	}
 
 	/*
-	 * When the user stops dragging the mouse the area highlighted is zoomed in on
+	 * When the user stops dragging the mouse asks the user if they wan't to zoom on 
+	 * the highlighted area
 	 */
 	@Override
 	public void mouseReleased(MouseEvent m) {
 		x = (double)(m.getX()-getInsets().left)/width*(right-left)+left;
 		y = (double)(m.getY()-getInsets().top)/height*(top-bottom)+bottom;
+		//System.out.println(width + "," + height + ","+right+","+left+","+top+","+bottom);
+		//System.out.println((width/height)+ " " + (right-left)/(top-bottom));
+		new JFXPanel();
+		Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+            	ButtonType yes = new ButtonType("Yes",ButtonData.YES);
+            	ButtonType no = new ButtonType("No", ButtonData.NO);
+            	Dialog<ButtonType> dialog= new Dialog<>();
+            	dialog.getDialogPane().getButtonTypes().addAll(yes,no);
+            	Button yesButton = (Button) (dialog.getDialogPane().lookupButton(yes));
+            	yesButton.setDefaultButton(false);
+            	Button noButton = (Button) (dialog.getDialogPane().lookupButton(no));
+            	noButton.setDefaultButton(true);
+            	dialog.setContentText("Are you sure you want to zoom here");
+            	dialog.showAndWait().ifPresent(responce->{
+            		if (responce.getButtonData()==ButtonData.YES){
+            			zoom(x,y);
+            		}
+            	});
+            	mouseX=mouseY=moveX=moveY =0;
+            	repaint();
+            }
+        });
+	}
+	
+	/*
+	 * zooms in on the currently highlighted area
+	 */
+	public void zoom(double x, double y){
 		if(Math.abs(x-xClick)/2.4<Math.abs(y-yClick)/3){
 			width = MAX_HEIGHT*scale*(Math.abs(x-xClick)/Math.abs(y-yClick));
 			height = MAX_HEIGHT*scale;
@@ -228,13 +263,9 @@ public class ImagePanel extends JPanel implements MouseListener,MouseMotionListe
 			top = yClick;
 			bottom = y;
 		}
-		//System.out.println(width + "," + height + ","+right+","+left+","+top+","+bottom);
-		//System.out.println((width/height)+ " " + (right-left)/(top-bottom));
 		mand = new Mandelbrot((int)width,(int)height,right,left,top,bottom,rand);
 		mand.generate();
 		image = mand.image;
-		mouseX=mouseY=moveX=moveY =0;
-		repaint();
 	}
 
 }

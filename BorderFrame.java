@@ -3,14 +3,10 @@ import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.embed.swing.JFXPanel;
 
 
 /*
