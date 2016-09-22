@@ -207,6 +207,10 @@ public class ImagePanel extends JPanel implements MouseListener,MouseMotionListe
 		y = (double)(m.getY()-getInsets().top)/height*(top-bottom)+bottom;
 		double oldWidth = width;
 		double oldHeight = height;
+		double oldRight = right;
+		double oldLeft = left;
+		double oldTop = top;
+		double oldBottom = bottom;
 		//System.out.println(width + "," + height + ","+right+","+left+","+top+","+bottom);
 		//System.out.println((width/height)+ " " + (right-left)/(top-bottom));
 		if(Math.abs(x-xClick)/2.4<Math.abs(y-yClick)/3){
@@ -266,6 +270,10 @@ public class ImagePanel extends JPanel implements MouseListener,MouseMotionListe
             			mand.stop();
             			width = oldWidth;
             			height = oldHeight;
+            			right = oldRight;
+            			left = oldLeft;
+            			top = oldTop;
+            			bottom = oldBottom;
             		}
             	});
             	mouseX=mouseY=moveX=moveY =0;
