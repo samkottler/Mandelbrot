@@ -20,6 +20,7 @@ public class Mandelbrot {
 			new Color(211, 236, 248),new Color(241, 233, 191),new Color(248, 201, 95),
 			new Color(255, 170, 0),new Color(204, 128, 0),new Color(153, 87, 0),
 			new Color(106, 52, 3),new Color(66, 30, 15)};
+	private boolean running = true;
     
 	/*
 	 * Use this constructor for to make the whole Mandelbrot
@@ -102,6 +103,13 @@ public class Mandelbrot {
 	}
 	
 	/*
+	 * stops the generation of the Mandelbrot
+	 */
+	public void stop(){
+		running  = false;
+	}
+	
+	/*
 	 * the calculation thread class
 	 */
 	class MandelThread extends Thread{
@@ -125,7 +133,7 @@ public class Mandelbrot {
 			double epsilon = (X_MAX-X_MIN)/WIDTH;
 			for (int x = X_START;x<X_END;x++){
 				for (int y = Y_START; y<Y_END;y++){
-					
+					if (!running) return;
 					c = new Complex((((double)x/WIDTH*(X_MAX-X_MIN))+X_MIN),(((double)y/HEIGHT*(Y_MAX-Y_MIN))+Y_MIN));
 					
 					int col = doPoint(c);
