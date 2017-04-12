@@ -70,11 +70,11 @@ public class Mandelbrot {
 			 start = System.currentTimeMillis();
 		}
 		
-		MandelThread a = new MandelThread(0,WIDTH/2,0,HEIGHT/2);
-        MandelThread b = new MandelThread(0,WIDTH/2,HEIGHT/2,HEIGHT);
-        MandelThread c = new MandelThread(WIDTH/2,WIDTH,0,HEIGHT/2);
-        MandelThread d = new MandelThread(WIDTH/2,WIDTH,HEIGHT/2,HEIGHT);
-        
+		MandelThread a = new MandelThread(0,0);
+		MandelThread b = new MandelThread(1,0);
+		MandelThread c = new MandelThread(0,1);
+		MandelThread d = new MandelThread(1,1);
+		
         a.start();
         b.start();
         c.start();
@@ -113,13 +113,11 @@ public class Mandelbrot {
 	 * the calculation thread class
 	 */
 	class MandelThread extends Thread{
-		private final int X_START,X_END,Y_START,Y_END, NUM_POINTS;
+		private final int X_START,Y_START, NUM_POINTS;
 		private int count = 0;
-		public MandelThread(int xs,int xe,int ys,int ye){
-			X_START = xs;
-			X_END = xe;
-			Y_START = ys;
-			Y_END = ye;
+		public MandelThread(int xStart,int yStart){
+			X_START = xStart;
+			Y_START = yStart;
 			NUM_POINTS=(int) RAND;
 		}
 		
@@ -131,8 +129,8 @@ public class Mandelbrot {
 		public void run(){
 			Complex c;
 			double epsilon = (X_MAX-X_MIN)/WIDTH;
-			for (int x = X_START;x<X_END;x++){
-				for (int y = Y_START; y<Y_END;y++){
+			for (int x = X_START;x<WIDTH;x+=2){
+				for (int y = Y_START; y<HEIGHT;y+=2){
 					if (!running) return;
 					c = new Complex((((double)x/WIDTH*(X_MAX-X_MIN))+X_MIN),(((double)y/HEIGHT*(Y_MAX-Y_MIN))+Y_MIN));
 					

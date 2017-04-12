@@ -9,14 +9,14 @@ public class MandelbrotRunner {
 		boolean save = false;
 	
 		if (save){
-			Mandelbrot mand = new Mandelbrot(6400,3600,10);
+			Mandelbrot mand = new Mandelbrot(600,480,10);
 			System.out.println("calculating");
 			long time = System.currentTimeMillis();
 			mand.generate();
 			System.out.println("done calculating in " + stringTime(System.currentTimeMillis()-time));
 			System.out.println("saving");
 			time = System.currentTimeMillis();
-			mand.save("Backgound2.png");
+			mand.save("test.png");
 			System.out.println("done saving in " + stringTime(System.currentTimeMillis()-time));
 		}
 		else 
